@@ -1,0 +1,6 @@
+class Mana {
+
+    constructor(slots) {
+        this.slots = slots;
+    }
+}
