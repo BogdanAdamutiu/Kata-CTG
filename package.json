@@ -1,0 +1,22 @@
+{
+  "name": "kata-ctg",
+  "version": "1.0.0",
+  "description": "Cards game",
+  "main": "Cards.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BogdanAdamutiu/Kata-CTG.git"
+  },
+  "author": "Bogdan Adamutiu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BogdanAdamutiu/Kata-CTG/issues"
+  },
+  "homepage": "https://github.com/BogdanAdamutiu/Kata-CTG#readme",
+  "devDependencies": {
+    "jest": "^25.1.0"
+  }
+}
