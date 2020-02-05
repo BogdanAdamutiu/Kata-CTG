@@ -15,10 +15,11 @@ class Player {
     constructor() {
         this.health = 30;
         this.manaslots = [];
-        this.cards = [0, 0, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        this.deck = [0, 0, 1];
+        this.hand = [10];
     }
 
-    addManaslot() {
+    receiveManaslot() {
         if (this.manaslots.length < 3) {
             this.manaslots.push(1);
         }
@@ -26,8 +27,21 @@ class Player {
         return this.manaslots;
     }
 
-    getAmountOfManaslots() {
-        return this.manaslots.length;
+    // possible ways to deal with control flow:
+    // - 1. use expection to make clear, insufficient mana was available
+    // - 2. use status returns, with clarification (return an object)
+    // - 3. return true/false, log additional information
+    receiveMana() {
+        for(let i = 0; i < this.manaslots.length; i++) {
+            if (this.manaslots[i] === 0) {
+                this.manaslots[i] = 1;
+                console.log({ status: true, manaslotUsed: i });
+                return true;
+            }
+        }
+
+        console.log({ status: false, msg: 'no empty manaslots found' });
+        return false;
     }
 
     // possible ways to deal with control flow:
@@ -46,6 +60,53 @@ class Player {
         console.log({ status: false, msg: 'no manaslots with mana or no sufficient mana' });
         return false;
     }
+
+    receiveDamage(damage) {
+        if (damage < 0) {
+            console.log({ status: false, msg: 'will not hurt a player if damage is negative' });
+            return false;
+        }
+
+        this.health -= damage;
+        return this.health;
+    }
+
+    receiveHealing(health) {
+        if (health < 0) {
+            console.log({ status: false, msg: 'will not heal a negative amount of health to player' });
+            return false;
+        }
+
+        this.health += health;
+        return this.health;
+    }
+
+    drawCard() {
+        if (this.deck.length) {
+            this.hand.push(this.deck.shift());
+            return true;
+        }
+
+        console.log({ status: false, msg: 'will not draw a card, my deck ran out of cards' });
+        return false;
+    }
+
+    playCard(opponent) {
+        if (this.hand.length) {
+            if (this.useMana()) {
+                const card = this.hand.shift();
+                opponent.receiveDamage(card);
+                return true;
+            }
+
+            console.log({ status: false, msg: 'ran out of mana to play a card' });
+            return false;
+        }
+
+        console.log({ status: false, msg: 'no cards left in hand to play' });
+        return false;
+    }
+
 }
 
 module.exports = () => new Player();
