@@ -15,11 +15,11 @@ class Player {
     constructor() {
         this.health = 30;
         this.manaslots = [];
-        this.cards = [0, 0, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        this.cards = [0, 0, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5, 5, 6, 6, 7, 8];
     }
 
     addManaslot() {
-        if (this.manaslots.length < 3) {
+        if (this.manaslots.length < 10) {
             this.manaslots.push(1);
         }
 
@@ -34,17 +34,33 @@ class Player {
     // - 1. use expection to make clear, insufficient mana was available
     // - 2. use status returns, with clarification (return an object)
     // - 3. return true/false, log additional information
-    useMana() {
-        for(let i = 0; i < this.manaslots.length; i++) {
-            if (this.manaslots[i] === 1) {
-                this.manaslots[i] = 0;
-                console.log({ status: true, manaslotUsed: i });
-                return true;
+    useMana(mana) {
+        let availableMana = 0;
+        try {
+            for (let i = 0; i < mana; i++) {
+                if (this.manaslots[i] === 1) {
+                    this.manaslots[i] = 0;
+                    availableMana++;
+                }
+            }
+            if (mana <= availableMana) {
+                return this.manaslots;
+            }
+            else {
+                throw new Error('Insufficient mana was available');
             }
         }
+        catch (e) {
+            throw new Error('Insufficient mana was available');
+        }
+    }
 
-        console.log({ status: false, msg: 'no manaslots with mana or no sufficient mana' });
-        return false;
+    refillMana() {
+        return this.manaslots.map(x => 1);
+    }
+
+    getCardNumber() {
+        return this.cards.length;
     }
 }
 

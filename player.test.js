@@ -9,7 +9,7 @@ describe('player', () => {
             expect(player).not.toBeNull();
             expect(player.health).toStrictEqual(30);
             expect(player.manaslots).toStrictEqual([]);
-            expect(player.cards).toStrictEqual([0, 0, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+            expect(player.cards).toStrictEqual([0, 0, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5, 5, 6, 6, 7, 8]);
         });
 
     });
@@ -29,22 +29,20 @@ describe('player', () => {
             expect(player.manaslots).toStrictEqual(manaslots);
         });
 
-        it('there will be maximum 3 manaslots and will not exceed 3 even when adding additional ones', () => {
+        it('there will be maximum 10 manaslots and will not exceed 10 even when adding additional ones', () => {
             const player = require('./player')();
+            player.addManaslot();
+            player.addManaslot();
+            player.addManaslot();
+            player.addManaslot();
+            player.addManaslot();
+            player.addManaslot();
+            player.addManaslot();
             player.addManaslot();
             player.addManaslot();
             player.addManaslot();
             const actual = player.addManaslot();
-            expect(actual.length).toStrictEqual(3);
-        });
-
-        it('...', () => {
-            const player = require('./player')();
-            let actual = player.useMana();
-            expect(actual).toBeFalsy();
-            player.addManaslot();
-            actual = player.useMana();
-            expect(actual).toBeTruthy();
+            expect(actual.length).toStrictEqual(10);
         });
 
     });
@@ -64,6 +62,54 @@ describe('player', () => {
             expect(actual).toStrictEqual(1);
         });
 
+    });
+
+    describe('useMana', () => {
+
+        it('throws error "Insufficient mana was available" if there are no mana slots with mana', () => {
+            const player = require('./player')();
+            expect(player.useMana(1)).toThrowError('Insufficient mana was available');
+        });
+
+        it('returns an array with first 2 elements 0', () => {
+            const player = require('./player')();
+            player.addManaslot();
+            player.addManaslot();
+            player.addManaslot();
+            expect(player.useMana(2)).toEqual([0, 0, 1]);
+        });
+
+    });
+
+    describe('getCardNumber', () => {
+
+        it('returns 20 after player creation', () => {
+            const player = require('./player')();
+            expect(player.getCardNumber()).toEqual(20);
+        });
+
+    });
+
+    describe('refillMana', () => {
+
+        it('returns empty if manaslot has not been added', () => {
+            const player = require('./player')();
+            expect(player.refillMana()).toEqual([]);
+        });
+
+        it('returns 1 for each manaslot added', () => {
+            const player = require('./player')();
+            player.addManaslot();
+            player.addManaslot();
+            expect(player.refillMana()).toEqual([1, 1]);
+        });
+
+        it('returns 1 for each manaslot even after usage', () => {
+            const player = require('./player')();
+            player.addManaslot();
+            player.addManaslot();
+            expect(player.refillMana()).toEqual([1, 1]);
+        });
     });
 
 });
