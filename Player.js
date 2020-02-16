@@ -1,15 +1,5 @@
 'use strict';
 
-// Recipe for simple code creation (dont bother about fancy stuff)
-// 1. find nouns in story
-// 2. find verbs in story
-// 3. find initial values in story for nouns
-// 4. find noun with least amount of dependencies, make this your first class
-// 5. add initial values to noun, bases on step 3
-// 6. add simplest verb associated with noun to class, as a function
-// 7. repeat 6 until you have all the verbs put into function for the noun
-// 8. find the next noun with the least amount of dependencies, and repeast from step 5 ... rinse & repeat
-
 class Player {
 
     constructor() {
@@ -30,10 +20,6 @@ class Player {
         return this.manaslots.length;
     }
 
-    // possible ways to deal with control flow:
-    // - 1. use expection to make clear, insufficient mana was available
-    // - 2. use status returns, with clarification (return an object)
-    // - 3. return true/false, log additional information
     useMana(mana) {
         let availableMana = 0;
         try {
@@ -61,6 +47,15 @@ class Player {
 
     getCardNumber() {
         return this.cards.length;
+    }
+
+    getHealth() {
+        return this.health;
+    }
+
+    useDamageCard(damage) {
+        this.health -= damage;
+        return this.health;
     }
 }
 

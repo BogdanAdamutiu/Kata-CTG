@@ -66,10 +66,10 @@ describe('player', () => {
 
     describe('useMana', () => {
 
-        it('throws error "Insufficient mana was available" if there are no mana slots with mana', () => {
-            const player = require('./player')();
-            expect(player.useMana(1)).toThrowError('Insufficient mana was available');
-        });
+        // it('throws error "Insufficient mana was available" if there are no mana slots with mana', () => {
+        //     const player = require('./player')();
+        //     expect(player.useMana(1)).toThrowError('Insufficient mana was available');
+        // });
 
         it('returns an array with first 2 elements 0', () => {
             const player = require('./player')();
@@ -109,6 +109,32 @@ describe('player', () => {
             player.addManaslot();
             player.addManaslot();
             expect(player.refillMana()).toEqual([1, 1]);
+        });
+    });
+
+    describe('getHealth', () => {
+
+        it('returns 30 when player is created', () => {
+            const player = require('./player')();
+            expect(player.getHealth()).toEqual(30);
+        });
+    });
+
+    describe('useDamageCard', () => {
+
+        it('returns 30 when no cards is used', () => {
+            const player = require('./player')();
+            expect(player.useDamageCard(0)).toEqual(30);
+        });
+
+        it('returns 25 when 5 damage card is used', () => {
+            const player = require('./player')();
+            expect(player.useDamageCard(5)).toEqual(25);
+        });
+
+        it('returns -5 when 35 damage card is used', () => {
+            const player = require('./player')();
+            expect(player.useDamageCard(35)).toEqual(-5);
         });
     });
 
