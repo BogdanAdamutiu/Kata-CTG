@@ -1,0 +1,44 @@
+@startuml
+title Structural Design of Trading Card Game
+
+package "trading-card-game" {
+
+  component "Health" {
+
+    +class HealthFactory {
+      +Health createInstanceOfHealth()
+    }
+
+    -class Health {
+      -amount : Number
+      +Number getHealth()
+      +void looseHealth(amount : Number)
+      +void gainHealth(amount : Number)
+    }
+
+    HealthFactory "1" .> "0..*" Health : " creates"
+
+  }
+
+  component "Player" {
+
+    +class PlayerFactory {
+      +Player createInstanceOfPlayer()
+    }
+
+    -class Player {
+      -health : Health
+      constructor(health : Health)
+      +Number getHealth()
+      +void sufferDamage(amount : Number)
+      +void healDamage(amount : Number)
+    }
+
+    PlayerFactory "1" *--> "1" HealthFactory : " creates & uses to create Health"
+    PlayerFactory "1" .> "0..*" Player : " creates"
+    Player "1" o-> "1" Health : " uses"
+  }
+
+}
+
+@enduml
