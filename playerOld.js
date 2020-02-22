@@ -1,6 +1,6 @@
 'use strict';
 
-class Player {
+class PlayerOld {
 
     constructor() {
         this.health = 30;
@@ -59,4 +59,4 @@ class Player {
     }
 }
 
-module.exports = () => new Player();
+module.exports = () => PlayerOld;

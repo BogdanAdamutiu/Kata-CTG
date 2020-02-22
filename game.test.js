@@ -2,8 +2,8 @@
 
 describe('game', () => {
 
-    describe('Play game', () => {
+    it('Play game', () => {
         const game = require('./game')();
-
+        game.start();
     });
 });

@@ -2,7 +2,7 @@
   "name": "bogdan",
   "version": "1.0.0",
   "description": "Kata: Trading card game",
-  "main": "player.js",
+  "main": "playerOld.js",
   "scripts": {
     "test": "jest"
   },

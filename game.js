@@ -2,18 +2,26 @@
 
 class Game {
 
-    constructor() {}
+    constructor(player1, player2) {
+        this.playerOne = player1;
+        this.playerTwo = player2;
+    }
 
-    const player1 = require('./player')();
-    const player2 = require('./player')();
-
-    do {
-        player1.useDamageCard(2);
-        player2.useDamageCard(3);
-        console.log("This is player 1 health " + player1.getHealth());
-        console.log("This is player 2 health " + player2.getHealth());
-    } while (player1.getHealth() > 0 && player2.getHealth() > 0);
-
+    start() {
+        do {
+            this.playerOne.useDamageCard(2);
+            this.playerTwo.useDamageCard(3);
+            console.log("This is player 1 health " + this.playerOne.getHealth());
+            console.log("This is player 2 health " + this.playerTwo.getHealth());
+        }
+        while ((this.playerOne.getHealth() > 0) && (this.playerTwo.getHealth() > 0));
+    }
 }
 
-module.exports = () => new Game();
+const createInstanceOfPlayer = require('./playerOld');
+
+module.exports = () => {
+    const playerOne = createInstanceOfPlayer();
+    const plsyerTwo = createInstanceOfPlayer();
+    return new Game(playerOne, plsyerTwo);
+};
