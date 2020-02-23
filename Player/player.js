@@ -2,7 +2,7 @@
 
 class Player {
 
-    constructor(heath) {
+    constructor(health) {
         this.health = health;
     }
 
