@@ -1,0 +1,121 @@
+@startuml
+title Structural Design of Trading Card Game
+package "trading-card-game" {
+  component "Health" {
+    +class HealthFactory {
+      +Mana createInstanceOfHealth()
+    }
+    -class Health {
+      -amount : Number
+      +Number getHealth()
+      +void looseHealth(amount : Number)
+      +void gainHealth(amount : Number)
+    }
+    HealthFactory "1" ..> "0..*" Health : " creates"
+  }
+  component "Mana" {
+    +class ManaFactory {
+      +Mana createInstanceOfMana()
+    }
+    -class Mana {
+      -amount : Number
+      +Number getMana()
+      +void useMana(amount : Number)
+      +void refillMana()
+    }
+    ManaFactory "1" ..> "0..*" Mana : " creates"
+  }
+  component "Card" {
+    +class CardFactory {
+      +Card createInstanceOfCard(value : Number)
+    }
+    -class Card {
+      -value : Number
+      +Number getDamage()
+    }
+    CardFactory "1" ..> "0..*" Card : " creates"
+  }
+  component "Hand" {
+    +class HandFactory {
+      +Hand createInstanceOfHand()
+    }
+    -class Hand {
+      -cards : Array of Card
+      +Card addToHand(card : Card)
+      +Card availableHand(Mana : Number)
+      +Card removeCard(card : Card)
+    }
+    HandFactory "1" ..> "0..*" Hand : " creates"
+    Hand "1" ..> "0..20" Card : " has"
+    Hand "1" ..> "0..*" PlayableHand : "has"
+  }
+  component "Playable Hand" {
+      +class PlayableHandFactory {
+        +PlayableHand createInstanceOfPlayableHand()
+      }
+      -class PlayableHand {
+        -cards : Array of Card
+        +Number hasPlayableCards()
+        +Card takeCard()
+      }
+      PlayableHandFactory "1" ..> "0..*" PlayableHand : " creates"
+      PlayableHand "1" ..> "0..20" Card : " has"
+  }
+  component "Deck" {
+    +class DeckFactory {
+      +Deck createInstanceOfDeck()
+    }
+    -class Deck {
+      -cards : Array of Card
+      // create with 20 cards:
+      // 0,0,1,1,2,2,2,3,3,3,3,4,
+      // 4,4,5,5,6,6,7,8
+      +Number drawCard()
+    }
+    DeckFactory "1" ..> "0..*" Deck : " creates"
+    DeckFactory "1" ..> "1" CardFactory : " creates"
+    Deck "1" ..> "0..20" Card : " has"
+  }
+  component "Player" {
+    +class PlayerFactory {
+      +Player createInstanceOfPlayer(health, mana, deck, initialHand)
+    }
+    -class Player {
+      constructor(deck : Deck, health : Game, mana : Mana)
+      -deck : Deck
+      -hand : Hand
+      -health : Game
+      -mana : Mana
+      +Card drawCard()
+      +Number getHealth()
+      +void sufferDamage(amount : Number)
+      +void playCards(opponent : Player)
+    }
+    PlayerFactory "1" ..> "0..*" Player : " creates"
+    PlayerFactory "1" .> "0..*" HandFactory : " creates"
+    Player "1" o-> "1" Health : " have"
+    Player "1" o-> "1" Mana : " have"
+    Player "1" o-> "1" Deck : " have"
+    Player "1" o-> "1" Hand : " have"
+  }
+  component "Game" {
+    class GameFactory {
+      +Game createInstanceOfGame()
+    }
+    class Game {
+      -startingPlayer : Player
+      -otherPlayer : Player
+      -void endGame()
+      -void takeTurn() // receive 1 manaslot, refill manaslots, draw card, playCards
+      +void startGame() // both players get 3 cards, figures out starting player, other player gets card
+    }
+    GameFactory "1" *--> "1" DeckFactory : " creates Deck for a Player"
+    GameFactory "1" *--> "1" HealthFactory : " creates Game for a Player"
+    GameFactory "1" *--> "1" ManaFactory : " creates Mana for a Player"
+    GameFactory "1" *--> "1" PlayerFactory : " creates Player(s) for a Game"
+    GameFactory "1" *.> "0..*" Game : " creates a Game"
+    Game "1" o-> "1" Player : " has active"
+    Game "1" o-> "1" Player : " has inactive"
+  }
+}
+@enduml
