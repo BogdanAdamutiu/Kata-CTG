@@ -51,4 +51,4 @@ class Mana {
     }
 }
 
-
+module.exports = Mana;

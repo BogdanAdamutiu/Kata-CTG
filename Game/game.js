@@ -2,9 +2,6 @@
 
 class Game {
 
-    constructor() {
-
-    }
 
 }
 

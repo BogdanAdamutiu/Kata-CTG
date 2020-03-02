@@ -11,7 +11,6 @@ class Deck {
         return this.cards[Math.floor(Math.random(0, max))];
     }
 
-    this.cards.takecard();
 }
 
 module.exports = Deck;
