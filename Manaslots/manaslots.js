@@ -16,6 +16,10 @@ class Manaslots {
         console.log('Maximum manaslots reached');
     }
 
+    refillManaslot() {
+        this.manaslots.map(manaslot => manaslot.amount = manaslot.size);
+    }
+
 }
 
 module.exports = Manaslots;

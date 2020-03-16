@@ -1,4 +1,4 @@
 'use strict';
 
 const Health = require('./health');
-module.exports = () => new Health();
+module.exports = (health) => new Health(health);

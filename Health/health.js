@@ -2,8 +2,8 @@
 
 class Health {
 
-    constructor() {
-        this.amount = 30;
+    constructor(health) {
+        this.amount = health;
     }
 
     getHealth() {
