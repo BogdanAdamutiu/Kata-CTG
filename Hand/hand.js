@@ -11,8 +11,8 @@ class Hand {
     }
 
     availableHand(amountOfMana) {
-        const playableCards = this.cards.filter(card => card.getDamage() <= amountOfMana);
-        return new PlayableHand(playableCards);
+        const myPlayableCards = this.cards.filter(card => card.getDamage() <= amountOfMana);
+        return new PlayableCards(myPlayableCards);
     }
 
     removeCard(card) {

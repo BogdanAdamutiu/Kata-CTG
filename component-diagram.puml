@@ -14,20 +14,28 @@ package "trading-card-game" {
         +Number getDamage()
         +Number getId()
       }
-      CardFactory "1" ..> "0..*" Card : " creates"
+      CardFactory "1" ..> "1..*" Card : " creates"
   }
 
-  component "Playable Hand" {
-        +class PlayableHandFactory {
-          +PlayableHand createInstanceOfPlayableHand()
+  component "Array" {
+      -class Array {
+      }
+  }
+
+  component "Number" {
+      -class Number {
+      }
+  }
+
+  component "PlayableCards" {
+        +class PlayableCardsFactory {
+          +PlayableHand createInstanceOfPlayableCars()
         }
-        -class PlayableHand {
-          -cards : Array of Card
-          +Number hasPlayableCards()
-          +Card takeCard()
+        -class PlayableCards {
         }
-        PlayableHandFactory "1" ..> "0..*" PlayableHand : " creates"
-        PlayableHand "1" o-> "0..20" Card : " has"
+        PlayableCardsFactory "1" ..> "1..*" PlayableCards : " creates"
+        PlayableCards "1" ..> "1.." Card : " has"
+        PlayableCards "1" o-> "1" Array : " extends"
   }
 
   component "Hand" {
@@ -35,13 +43,11 @@ package "trading-card-game" {
         +Hand createInstanceOfHand()
       }
       -class Hand {
-        -cards : Array of Card
-        +Card addToHand(card : Card)
-        +PlayableHand availableHand(mana : Number)
-        +Bool removeCard(card : Card)
       }
-      HandFactory "1" ..> "0..*" Hand : " creates"
-      Hand "1" o-> "0..20" Card : " has"
+      HandFactory "1" ..> "1" Hand : " creates"
+      Hand "1" ..> "1..20" Card : " has"
+      Hand "1" ..> "1" PlayableCards : " has"
+      Hand "1" o-> "1" Array : " extends"
   }
 
   component "Deck" {
@@ -55,9 +61,9 @@ package "trading-card-game" {
         // 4,4,5,5,6,6,7,8
         +Card drawCard()
       }
-      DeckFactory "1" ..> "0..*" Deck : " creates"
-      DeckFactory "1" ..> "1" CardFactory : " creates"
-      Deck "1" o-> "0..20" Card : " has"
+      DeckFactory "1" ..> "1" Deck : " creates"
+      Deck "1" o-> "1..20" Card : " has"
+      Deck "1" o-> "1" Array : " extends"
   }
 
   component "Health" {
@@ -71,6 +77,19 @@ package "trading-card-game" {
       +void gainHealth(amount : Number)
     }
     HealthFactory "1" ..> "0..*" Health : " creates"
+    Health "1" o-> "1" Number : " extends"
+  }
+
+  component "Manaslots" {
+    +class ManaslotsFactory {
+      +Manaslots createInstanceOfManaslots()
+    }
+    -class Manaslots {
+    }
+    ManaslotsFactory "1" ..> "0..*" Manaslots : " creates"
+    ManaslotsFactory "1" ..> "0..*" ManaFactory : " creates"
+    Manaslots "1" ..> "1..10" Mana : " uses"
+    Manaslots "1" o-> "1" Array : " extends"
   }
 
   component "Mana" {
@@ -91,11 +110,11 @@ package "trading-card-game" {
       +Player createInstanceOfPlayer(health, mana, deck, initialHand)
     }
     -class Player {
-      constructor(deck : Deck, health : Game, mana : Mana)
+      constructor(deck : Deck, health : Game, manaSlots : Manaslots)
       -deck : Deck
       -hand : Hand
       -health : Game
-      -mana : Mana
+      -manaSlots : Manaslots
       +Card drawCard()
       +Card takeCard()
       +Number getHealth()
@@ -107,10 +126,9 @@ package "trading-card-game" {
     PlayerFactory "1" ..> "0..*" Player : " creates"
     PlayerFactory "1" .> "0..*" HandFactory : " creates"
     Player "1" o-> "1" Health : " have"
-    Player "1" o-> "1" Mana : " have"
+    Player "1" o-> "1" Manaslots : " have"
     Player "1" o-> "1" Deck : " have"
     Player "1" o-> "1" Hand : " have"
-    Player "1" o-> "1" PlayableHand : " have"
   }
 
   component "Game" {

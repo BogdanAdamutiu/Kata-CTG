@@ -1,6 +1,6 @@
 'use strict';
 
-class PlayableHand {
+class PlayableCards {
 
     constructor(cards) {
         this.cards = cards;
@@ -20,4 +20,4 @@ class PlayableHand {
 
 }
 
-module.exports = PlayableHand;
+module.exports = PlayableCards;
