@@ -17,7 +17,7 @@ class Manaslots {
         }
     }
 
-    refillManaslot() {
+    refillManaslots() {
         this.manaslots.map(manaslot => manaslot.amount = manaslot.size);
     }
 
@@ -34,8 +34,6 @@ class Manaslots {
                 }
             }
         }
-
-        return true;
     }
 
     availableMana() {

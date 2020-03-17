@@ -58,8 +58,8 @@ class Player {
             do {
                 let card = this.takeCard();
                 opponent.sustainDamage(card.value);
-                this.manaslots.useManaslots(card.value);
-                this.hand.removeCard(card);
+                this.manaslots.useManaslots(card.value)
+                    .removeCard(card);
             } while (this.hasPlayableCards() > 0)
         }
     }

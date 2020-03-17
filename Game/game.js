@@ -25,7 +25,7 @@ class Game {
     takeTurn() {
         this.activePlayer.addToHand()
             .addManaslot(manaSlot(this.turn, this.turn))
-            .refillManaslot()
+            .refillManaslots()
             .playCards(this.otherPlayer);
 
         this.switchActivePlayer();
