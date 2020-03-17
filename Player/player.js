@@ -25,6 +25,10 @@ class Player {
         return this.hand.cards;
     }
 
+    getAvailableMana() {
+        return this.manaslots.availableMana();
+    }
+
     addManaslot(manaslot) {
         this.manaslots.addManaslot(manaslot);
     }
@@ -46,17 +50,18 @@ class Player {
     }
 
     takeCard() {
-        return this.getAvailableCards().takeCard();
+        return this.getAvailableCards(this.getAvailableMana()).takeCard();
     }
 
     playCards(opponent) {
-        do {
-            let card = this.takeCard();
-            opponent.sustainDamage(card.value);
-            this.hand.removeCard(card);
-            //TODO: reduce available mana
-
-        } while (this.hasPlayableCards() > 0)
+        if(this.getAvailableCards(this.getAvailableMana()) > 0) {
+            do {
+                let card = this.takeCard();
+                opponent.sustainDamage(card.value);
+                this.manaslots.useManaslots(card.value);
+                this.hand.removeCard(card);
+            } while (this.hasPlayableCards() > 0)
+        }
     }
 }
 

@@ -2,4 +2,4 @@
 
 const Manaslots = require('./manaslots');
 
-module.exports = (min, max) => new Manaslots(min, max);
+module.exports = (max, min = 0) => new Manaslots(max, min);
