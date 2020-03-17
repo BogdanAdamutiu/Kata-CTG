@@ -17,16 +17,6 @@ package "trading-card-game" {
       CardFactory "1" ..> "1..*" Card : " creates"
   }
 
-  component "Array" {
-      -class Array {
-      }
-  }
-
-  component "Number" {
-      -class Number {
-      }
-  }
-
   component "PlayableCards" {
         +class PlayableCardsFactory {
           +PlayableHand createInstanceOfPlayableCars()
