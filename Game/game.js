@@ -4,9 +4,12 @@ const manaSlot = require('../Manaslot/factory.manaslot');
 
 class Game {
 
-    constructor(startingPlayer, otherPlayer) {
+    constructor(startingPlayer, otherPlayer, deck, health, maxManaslots) {
         this.startingPlayer = startingPlayer;
         this.otherPlayer = otherPlayer;
+        this.deck = deck;
+        this.health = health;
+        this.maxManaslots = maxManaslots;
         this.activePlayer = this.startingPlayer;
         this.turn = 0;
     }
@@ -44,10 +47,14 @@ class Game {
     endGame() {
         if(this.startingPlayer.getHealth() <= 0) {
             console.log('Other player is the winner');
+            return true;
         }
         else if(this.otherPlayer.getHealth() <= 0) {
             console.log('Starting player is the winner');
+            return true;
         }
+
+        return false;
     }
 
 }
