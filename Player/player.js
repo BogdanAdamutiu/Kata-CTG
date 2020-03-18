@@ -14,8 +14,30 @@ class Player {
         return this.health.looseHealth(damage);
     }
 
-    healDamage(damage) {
-        return this.health.gainHealth(damage);
+    addManaslot(manaslot) {
+        this.manaslots.addManaslot(manaslot);
+    }
+
+    drawCard() {
+        this.hand.addToHand(this.deck.drawRandomCard());
+        return this;
+    }
+
+    playCards(opponent) {
+
+            while (this.hand.hasPlayableCards() > 0 && (this.hand.getAvailableCards(this.manaslots.availableMana()) > 0)) {
+                let card = this.hand.getAvailableCards(this.manaslots.availableMana()).takeCard();
+                opponent.sustainDamage(card.value);
+                this.manaslots.useManaslots(card.value);
+                this.hand.removeCard(card);
+            }
+
+            return this;
+    }
+
+    refillAllMana() {
+        this.manaslots.refillManaslot();
+        return this;
     }
 }
 

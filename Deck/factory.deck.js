@@ -2,12 +2,13 @@
 
 const Deck = require('./deck');
 const Card = require('../Card/factory.card');
-const cardsValue = [0, 0, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5, 5, 6, 6, 7, 8];
 
-module.exports = () => {
-    let i = 0;
-    const cards = [];
-    cards.map(x => new Card(cardsValue[i++]));
+module.exports = cards => {
+    if (cards === null || cards === undefined || !(cards instanceof Array)) {
+        console.log("Argument cards for deck must be of type Array");
+        throw new TypeError("Argument cards for deck must be of type Array");
+    }
 
-    return new Deck(cards);
+    const setOfCards = cards.map(x => Card(x));
+    return new Deck(setOfCards);
 };

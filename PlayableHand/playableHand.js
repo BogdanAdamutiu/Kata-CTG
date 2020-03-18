@@ -12,7 +12,8 @@ class PlayableHand {
 
     takeCard() {
         if (this.cards.length === 0) {
-            return null;
+            console.log("You tried to take a card from an empty playable cards");
+            throw new Error("You tried to take a card from an empty playable cards");
         }
 
         return this.cards.shift();
