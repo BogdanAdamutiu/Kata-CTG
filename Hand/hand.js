@@ -19,11 +19,11 @@ class Hand {
         for (let i = 0; i < this.cards.length; i++) {
             if (this.cards[i].equals(card)) {
                 this.cards.splice(i,1);
-                return true;
             }
         }
 
-        return false;
+        console.log("You tried to remove an inexistent card from your hand");
+        throw new Error("You tried to remove an inexistent card from your hand");
     }
 }
 

@@ -5,10 +5,15 @@ const kataGameCards = [0, 0, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5, 5, 6, 6, 7, 
 const kataGameHealth = 30;
 const kataGameMaxManaslots = 10;
 
-const myKataGame = kataGame(player1, player2, kataGameHealth, kataGameCards, kataGameMaxManaslots);
+const myKataGame = kataGame(kataGameHealth, kataGameCards, kataGameMaxManaslots);
+
+myKataGame.setupGame();
 
 myKataGame.startGame();
 
-do {
-    myKataGame.takeTurn()
-} while (!myKataGame.endGame());
+
+
+if (value === null || value === undefined || !(value instanceof Number)) {
+    console.log("Argument value for card must be of type Number");
+    throw new TypeError("Argument value for card must be of type Number");
+}

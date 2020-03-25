@@ -6,14 +6,17 @@ class Deck {
         this.cards = cards;
     }
 
-    drawCard() {
+    drawRandomCard() {
         if(this.cards.length > 0) {
             return this.cards.splice(Math.floor(Math.random()*this.cards.length), 1);
         }
 
-        //TODO: Throw error if there are no more cards or something else
-        console.log('There are no more cards in the deck');
-        return null;
+        console.log('You tried to draw a card from an empty deck');
+        throw new Error("You tried to draw a card from an empty deck");
+    }
+
+    hasCards() {
+        return this.cards.length;
     }
 
 }

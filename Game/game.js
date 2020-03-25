@@ -1,44 +1,47 @@
 'use strict';
 
-const manaSlot = require('../Manaslot/factory.manaslot');
+const manaslot = require('../Manaslot/factory.manaslot');
 
 class Game {
 
-    constructor(startingPlayer, otherPlayer, deck, health, maxManaslots) {
+    constructor(startingPlayer, otherPlayer) {
         this.startingPlayer = startingPlayer;
         this.otherPlayer = otherPlayer;
-        this.deck = deck;
-        this.health = health;
-        this.maxManaslots = maxManaslots;
         this.activePlayer = this.startingPlayer;
         this.turn = 0;
     }
 
-    startGame() {
+    setupGame() {
         this.turn = 1;
-        this.startingPlayer.addToHand()
-            .addToHand()
-            .addToHand();
-        this.otherPlayer.addToHand()
-            .addToHand()
-            .addToHand()
-            .addToHand();
+        this.startingPlayer.drawCard()
+            .drawCard()
+            .drawCard();
+        this.otherPlayer.drawCard()
+            .drawCard()
+            .drawCard()
+            .drawCard();
     }
 
     takeTurn() {
-        this.activePlayer.addToHand()
-            .addManaslot(manaSlot(this.turn, this.turn))
-            .refillManaslots()
+        this.activePlayer.drawCard()
+            .addManaslot(manaslot(this.turn, this.turn))
+            .refillAllMana()
             .playCards(this.otherPlayer);
 
         this.switchActivePlayer();
     }
 
+    startGame() {
+        while (!this.endGame()) {
+            this.takeTurn();
+        }
+    }
+
     switchActivePlayer() {
-        if(this.activePlayer == this.startingPlayer) {
+        if(this.activePlayer === this.startingPlayer) {
             this.activePlayer = this.otherPlayer;
         }
-        else if(this.activePlayer == this.otherPlayer) {
+        else if(this.activePlayer === this.otherPlayer) {
             this.activePlayer = this.startingPlayer;
             this.turn++;
         }

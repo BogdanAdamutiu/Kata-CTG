@@ -15,6 +15,14 @@ class Manaslot {
         return this.amount;
     }
 
+    refillManaslot() {
+        this.amount = this.size;
+    }
+
+    useMana(amount) {
+        this.amount -= amount;
+    }
+
 }
 
 module.exports = Manaslot;

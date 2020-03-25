@@ -17,51 +17,31 @@ class Player {
         return this.health.looseHealth(damage);
     }
 
-    healDamage(damage) {
-        return this.health.gainHealth(damage);
-    }
-
-    getHand() {
-        return this.hand.cards;
-    }
-
-    getAvailableMana() {
-        return this.manaslots.availableMana();
-    }
-
     addManaslot(manaslot) {
         this.manaslots.addManaslot(manaslot);
     }
 
-    addToHand() {
-        this.hand.addToHand(this.drawCard());
-    }
-
-    getAvailableCards(totalMana) {
-        return this.hand.availableHand(totalMana);
-    }
-
-    hasPlayableCards() {
-        return this.hand.hasPlayableCards();
-    }
-
     drawCard() {
-        return this.deck.drawCard();
-    }
-
-    takeCard() {
-        return this.getAvailableCards(this.getAvailableMana()).takeCard();
+        if(this.deck.hasCards()) {
+            this.hand.addToHand(this.deck.drawRandomCard());
+            return this;
+        }
     }
 
     playCards(opponent) {
-        if(this.getAvailableCards(this.getAvailableMana()) > 0) {
-            do {
-                let card = this.takeCard();
-                opponent.sustainDamage(card.value);
-                this.manaslots.useManaslots(card.value)
-                    .removeCard(card);
-            } while (this.hasPlayableCards() > 0)
+        while (this.hand.hasPlayableCards() > 0 && (this.hand.availableHand(this.manaslots.availableMana()) > 0)) {
+            let card = this.hand.availableHand(this.manaslots.availableMana()).takeCard();
+            opponent.sustainDamage(card.value);
+            this.manaslots.useManaFromManaslots(card.value);
+            this.hand.removeCard(card);
         }
+
+        return this;
+    }
+
+    refillAllMana() {
+        this.manaslots.refillManaOfManaslots();
+        return this;
     }
 }
 

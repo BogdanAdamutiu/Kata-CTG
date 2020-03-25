@@ -17,32 +17,30 @@ class Manaslots {
         }
     }
 
-    refillManaslots() {
-        this.manaslots.map(manaslot => manaslot.amount = manaslot.size);
+    refillManaOfManaslots() {
+        this.manaslots.forEach(manaslot => manaslot.refillManaslot());
     }
 
-    useManaslots(amount) {
-        for(let i = 0; i < this.manaslots.length; i++) {
-            if((this.manaslots[i].amount > 0) && (amount > 0)) {
-                if(amount < this.manaslots[i].amount) {
-                    this.manaslots[i].amount -= amount;
-                    amount -= this.manaslots[i].amount;
-                }
-                else {
-                    amount -= this.manaslots[i].amount;
-                    this.manaslots[i].amount = 0;
-                }
-            }
+    useManaFromManaslots(amount) {
+       if(this.availableMana() >= amount) {
+           let i = 0;
+           while (i < this.manaslots.length) {
+               const amountToBeUsed = Math.min(this.manaslots[i].getAmount(), amount);
+               this.manaslots[i].useMana(amountToBeUsed);
+               amount -= amountToBeUsed;
+               i++;
+           }
+        }
+        else {
+            console.log("You are trying to use more mana than available");
+            throw new Error("You are trying to use more mana than available");
         }
     }
 
     availableMana() {
         let mana = 0;
-
         for(let i = 0; i < this.manaslots.length; i++) {
-            if (this.manaslots[i].amount > 0) {
-                mana += this.manaslots[i].amount;
-            }
+            mana += this.manaslots[i].amount;
         }
 
         return mana;
