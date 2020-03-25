@@ -1,11 +1,11 @@
 'use strict';
 
-const PlayableHand = require('./playableHand');
+const PlayableCards = require('./playableCards');
 
 module.exports = cards => {
-    if (cards === null || cards === undefined || cards instanceof Array) {
+    if (cards === null || cards === undefined) {
         console.log("Argument cards for playable cards must be of type Array");
         throw new TypeError("Argument cards for playable cards  must be of type Array");
     }
-    return new PlayableHand(cards);
+    return new PlayableCards(cards);
 };

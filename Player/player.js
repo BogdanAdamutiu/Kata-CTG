@@ -2,8 +2,11 @@
 
 class Player {
 
-    constructor(health) {
+    constructor(health, manaslots, deck, hand) {
         this.health = health;
+        this.manaslots = manaslots;
+        this.deck = deck;
+        this.hand = hand;
     }
 
     getHealth() {
@@ -19,24 +22,25 @@ class Player {
     }
 
     drawCard() {
-        this.hand.addToHand(this.deck.drawRandomCard());
-        return this;
+        if(this.deck.hasCards()) {
+            this.hand.addToHand(this.deck.drawRandomCard());
+            return this;
+        }
     }
 
     playCards(opponent) {
+        while (this.hand.hasPlayableCards() > 0 && (this.hand.availableHand(this.manaslots.availableMana()) > 0)) {
+            let card = this.hand.availableHand(this.manaslots.availableMana()).takeCard();
+            opponent.sustainDamage(card.value);
+            this.manaslots.useManaFromManaslots(card.value);
+            this.hand.removeCard(card);
+        }
 
-            while (this.hand.hasPlayableCards() > 0 && (this.hand.getAvailableCards(this.manaslots.availableMana()) > 0)) {
-                let card = this.hand.getAvailableCards(this.manaslots.availableMana()).takeCard();
-                opponent.sustainDamage(card.value);
-                this.manaslots.useManaslots(card.value);
-                this.hand.removeCard(card);
-            }
-
-            return this;
+        return this;
     }
 
     refillAllMana() {
-        this.manaslots.refillManaslot();
+        this.manaslots.refillManaOfManaslots();
         return this;
     }
 }

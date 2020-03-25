@@ -17,7 +17,8 @@ class Manaslots {
         }
     }
 
-    refillManaslots() {
+    refillManaOfManaslots() {
+
         this.manaslots.forEach(manaslot => manaslot.refillManaslot());
     }
 
@@ -41,9 +42,7 @@ class Manaslots {
         let mana = 0;
 
         for(let i = 0; i < this.manaslots.length; i++) {
-            if (this.manaslots[i].amount > 0) {
-                mana += this.manaslots[i].amount;
-            }
+            mana += this.manaslots[i].amount;
         }
 
         return mana;

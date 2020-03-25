@@ -11,8 +11,8 @@ class Hand {
     }
 
     availableHand(amountOfMana) {
-        const playableCards = this.cards.filter(card => card.getDamage() <= amountOfMana);
-        return new PlayableHand(playableCards);
+        const myPlayableCards = this.cards.filter(card => card.getDamage() <= amountOfMana);
+        return new PlayableCards(myPlayableCards);
     }
 
     removeCard(card) {
@@ -22,8 +22,8 @@ class Hand {
             }
         }
 
-        console.log("You tried to remove an inexisting card from your hand");
-        throw new Error("You tried to remove an inexisting card from your hand");
+        console.log("You tried to remove an inexistent card from your hand");
+        throw new Error("You tried to remove an inexistent card from your hand");
     }
 }
 

@@ -1,6 +1,6 @@
 'use strict';
 
-const instanceOfHealth = require('../Health/factory.health');
 const Player = require('./player');
 
-module.exports = () => new Player(instanceOfHealth());
+module.exports = (health, manaslots, deck, hand) =>
+    new Player(health, manaslots, deck, hand);

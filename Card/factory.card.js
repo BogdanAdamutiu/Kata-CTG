@@ -1,8 +1,9 @@
 'use strict';
 
 const Card = require('./card');
+
 module.exports = value => {
-    if (value === null || value === undefined || !(value instanceof Number)) {
+    if (value === undefined || !isNaN(value)) {
         console.log("Argument value for card must be of type Number");
         throw new TypeError("Argument value for card must be of type Number");
     }

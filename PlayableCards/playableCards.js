@@ -1,6 +1,6 @@
 'use strict';
 
-class PlayableHand {
+class PlayableCards {
 
     constructor(cards) {
         this.cards = cards;
@@ -12,8 +12,8 @@ class PlayableHand {
 
     takeCard() {
         if (this.cards.length === 0) {
-            console.log("You tried to take a card from an empty playable cards");
-            throw new Error("You tried to take a card from an empty playable cards");
+            console.log("You tried to take a card from empty playable cards");
+            throw new Error("You tried to take a card from empty playable cards");
         }
 
         return this.cards.shift();
@@ -21,4 +21,4 @@ class PlayableHand {
 
 }
 
-module.exports = PlayableHand;
+module.exports = PlayableCards;

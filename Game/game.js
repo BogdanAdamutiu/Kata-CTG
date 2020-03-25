@@ -1,5 +1,7 @@
 'use strict';
 
+const manaslot = require('../Manaslot/factory.manaslot');
+
 class Game {
 
     constructor(startingPlayer, otherPlayer) {
@@ -11,18 +13,18 @@ class Game {
 
     setupGame() {
         this.turn = 1;
-        this.startingPlayer.addToHand()
-            .addToHand()
-            .addToHand();
-        this.otherPlayer.addToHand()
-            .addToHand()
-            .addToHand()
-            .addToHand();
+        this.startingPlayer.drawCard()
+            .drawCard()
+            .drawCard();
+        this.otherPlayer.drawCard()
+            .drawCard()
+            .drawCard()
+            .drawCard();
     }
 
     takeTurn() {
-        this.activePlayer.addToHand()
-            .addManaslot(manaSlot(this.turn, this.turn))
+        this.activePlayer.drawCard()
+            .addManaslot(manaslot(this.turn, this.turn))
             .refillAllMana()
             .playCards(this.otherPlayer);
 
@@ -36,10 +38,10 @@ class Game {
     }
 
     switchActivePlayer() {
-        if(this.activePlayer == this.startingPlayer) {
+        if(this.activePlayer === this.startingPlayer) {
             this.activePlayer = this.otherPlayer;
         }
-        else if(this.activePlayer == this.otherPlayer) {
+        else if(this.activePlayer === this.otherPlayer) {
             this.activePlayer = this.startingPlayer;
             this.turn++;
         }
@@ -60,3 +62,4 @@ class Game {
 
 }
 
+module.exports = Game;
