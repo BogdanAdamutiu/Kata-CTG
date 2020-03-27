@@ -2,11 +2,6 @@
 
 const instanceOfDeck = require('./Card/factory.card');
 
-// it ('first test', () => {
-//     const DeckOne = instanceOfDeck();
-//     console.log(DeckOne);
-//     console.log(DeckOne.drawCard());
-// });
 
 it ('first test', () => {
     const DeckOne = instanceOfDeck(10);
@@ -48,10 +43,12 @@ it('Hand', () => {
     console.log(deck.drawRandomCard());
     console.log(deck.cards[6]);
     console.log(deck.cards[8].value);
+    Hand().addToHand(deck.cards[6]);
 
 
-    console.log(deck);
     console.log(Hand());
+
+    console.log(deck.cards.splice(Math.floor(Math.random()*deck.cards.length), 1));
 
 });
 
