@@ -3,7 +3,7 @@
 const Card = require('./card');
 
 module.exports = value => {
-    if (value === undefined || isNaN(value)) {
+    if (value === undefined || isNaN(value) || typeof(value) != "number") {
         console.log("Argument value for card must be of type Number");
         throw new TypeError("Argument value for card must be of type Number");
     }

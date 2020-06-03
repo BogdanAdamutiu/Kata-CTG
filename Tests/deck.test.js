@@ -34,15 +34,33 @@ describe('Component Deck', () => {
         expect(deck.hasCards()).toEqual(2);
     });
 
-    it('Deck will return a random card', () => {
+    it('If deck is empty and you draw a random card it will throw an error', () => {
+        const instanceOfDeck = require('../Deck/factory.deck');
+        const deck = instanceOfDeck([]);
+        expect(() => deck.drawRandomCard(1)).toThrow(TypeError('You tried to draw a card from an empty deck'));
+    });
+
+    it('Deck will return a random card from the deck', () => {
         const instanceOfDeck = require('../Deck/factory.deck');
         const deck = instanceOfDeck([1,2,3,4,5,6]);
-        expect(deck.drawRandomCard(1)).not.toEqual(deck[1]);
+        console.log(deck);
+        //TODO: This test is not correct need to update to check that card exists in deck
+        //const randomCard = deck.drawRandomCard();
+        //console.log(randomCard);
+        //var n = deck.cards.indexOf(randomCard);
+        expect(deck.drawRandomCard()).not.toEqual(deck[1]);
+
     });
 
-    it('', () => {
+    it('Deck will return 0 when it has 0 cards', () => {
         const instanceOfDeck = require('../Deck/factory.deck');
+        const deck = instanceOfDeck([]);
+        expect(deck.hasCards()).toStrictEqual(0);
     });
 
-
+    it('Deck will return 2 when it has 2 cards', () => {
+        const instanceOfDeck = require('../Deck/factory.deck');
+        const deck = instanceOfDeck([1,2]);
+        expect(deck.hasCards()).toStrictEqual(2);
+    });
 });

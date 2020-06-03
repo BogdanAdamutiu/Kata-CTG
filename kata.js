@@ -13,7 +13,7 @@ myKataGame.startGame();
 
 
 
-if (value === null || value === undefined || !(value instanceof Number)) {
-    console.log("Argument value for card must be of type Number");
-    throw new TypeError("Argument value for card must be of type Number");
-}
+// if (value === null || value === undefined || typeof(value) != "number") {
+//     console.log("Argument value for card must be of type Number");
+//     throw new TypeError("Argument value for card must be of type Number");
+// }

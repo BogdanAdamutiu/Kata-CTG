@@ -35,20 +35,40 @@ it('Deck', () => {
 it('Hand', () => {
     const kataGameCards = [0, 0, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5, 5, 6, 6, 7, 8];
     const Deck = require('./Deck/factory.deck');
-    const Hand = require('./Hand/factory.hand');
+    const hand = require('./Hand/factory.hand')();
     const deck = Deck(kataGameCards);
-    Hand().addToHand(deck.drawRandomCard());
+
+    const myCard = deck.drawRandomCard();
+
+    console.log(isNaN(hand));
+
+    //hand.cards.push(245);
+
+    //Hand().addToHand(5);
+
+    hand.addToHand(myCard);
+
+    console.log("This is a random card: " + deck.drawRandomCard());
+    console.log("This is my card: " + myCard);
+    console.log(hand);
+    console.log(isNaN(hand));
+
+
     // Hand().addToHand(deck.cards[3]);
     // Hand().addToHand(deck.cards[6]);
-    console.log(deck.drawRandomCard());
-    console.log(deck.cards[6]);
-    console.log(deck.cards[8].value);
-    Hand().addToHand(deck.cards[6]);
-
-
-    console.log(Hand());
-
-    console.log(deck.cards.splice(Math.floor(Math.random()*deck.cards.length), 1));
+    // console.log(deck.drawRandomCard());
+    // console.log('this is the 6th card: ' + deck.cards[6]);
+    // console.log(deck.cards[8].value);
+    // Hand().addToHand(deck.cards[6]);
+    //
+    //
+    // console.log(Hand());
+    //
+    // console.log(deck.cards.splice(Math.floor(Math.random()*deck.cards.length), 1));
+    //
+    // const ceva = deck.drawRandomCard();
+    // Hand().addToHand(ceva);
+    // console.log(Hand());
 
 });
 
