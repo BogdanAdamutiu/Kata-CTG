@@ -9,7 +9,7 @@ class Manaslots {
     }
 
     addManaslot(manaslot) {
-        if(this.manaslots.length <= this.maximum) {
+        if(this.manaslots.length < this.maximum) {
             this.manaslots.push(manaslot);
         }
         else {
@@ -18,7 +18,6 @@ class Manaslots {
     }
 
     refillManaOfManaslots() {
-
         this.manaslots.forEach(manaslot => manaslot.refillManaslot());
     }
 

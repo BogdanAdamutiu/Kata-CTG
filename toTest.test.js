@@ -52,24 +52,6 @@ it('Hand', () => {
     console.log("This is my card: " + myCard);
     console.log(hand);
     console.log(isNaN(hand));
-
-
-    // Hand().addToHand(deck.cards[3]);
-    // Hand().addToHand(deck.cards[6]);
-    // console.log(deck.drawRandomCard());
-    // console.log('this is the 6th card: ' + deck.cards[6]);
-    // console.log(deck.cards[8].value);
-    // Hand().addToHand(deck.cards[6]);
-    //
-    //
-    // console.log(Hand());
-    //
-    // console.log(deck.cards.splice(Math.floor(Math.random()*deck.cards.length), 1));
-    //
-    // const ceva = deck.drawRandomCard();
-    // Hand().addToHand(ceva);
-    // console.log(Hand());
-
 });
 
 it('Health', () => {
