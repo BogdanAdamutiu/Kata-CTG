@@ -1,11 +1,10 @@
 'use strict';
-const playableHand = require('../PlayableCards/factory.playableCards');
-//TODO: check if this is correct
 
 class Hand {
 
-    constructor() {
+    constructor(playableHandFactory) {
         this.cards = [];
+        this.playableHandFactory = playableHandFactory;
     }
 
     addToHand(card) {
@@ -14,7 +13,11 @@ class Hand {
 
     availableHand(amountOfMana) {
         const myPlayableCards = this.cards.filter(card => card.getDamage() <= amountOfMana);
-        return playableHand(myPlayableCards);
+        return this.playableHandFactory(myPlayableCards);
+    }
+
+    areCardsAvailable(amountOfMana) {
+        return this.availableHand(amountOfMana).hasPlayableCards();
     }
 
     removeCard(card) {

@@ -29,7 +29,7 @@ describe('Component Hand', () => {
     it('An error appears if you try to remove and un-existing card from the hand', () => {
         const instanceOfHand = require('../Hand/factory.hand')();
         const card = require('../Card/factory.card')(5);
-        expect(() => instanceOfHand.removeCard(card)).toThrowError("You tried to remove an inexistent card from your hand");
+        expect(() => instanceOfHand.removeCard(card)).toThrowError("You tried to remove an un-existent card from your hand");
     });
 
     it('A card can be removed from the hand if it exists', () => {

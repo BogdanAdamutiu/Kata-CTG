@@ -19,17 +19,18 @@ class Player {
 
     addManaslot(manaslot) {
         this.manaslots.addManaslot(manaslot);
+        return this;
     }
 
     drawCard() {
         if(this.deck.hasCards()) {
             this.hand.addToHand(this.deck.drawRandomCard());
-            return this;
         }
+        return this;
     }
 
     playCards(opponent) {
-        while (this.hand.hasPlayableCards() > 0 && (this.hand.availableHand(this.manaslots.availableMana()) > 0)) {
+        while (this.hand.areCardsAvailable(this.manaslots.availableMana())) {
             let card = this.hand.availableHand(this.manaslots.availableMana()).takeCard();
             opponent.sustainDamage(card.value);
             this.manaslots.useManaFromManaslots(card.value);

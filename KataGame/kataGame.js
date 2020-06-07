@@ -2,13 +2,13 @@
 
 const manaslot = require('../Manaslot/factory.manaslot');
 
-class Game {
+class KataGame {
 
     constructor(startingPlayer, otherPlayer) {
         this.startingPlayer = startingPlayer;
         this.otherPlayer = otherPlayer;
-        this.activePlayer = this.startingPlayer;
         this.turn = 0;
+        this.round = 0;
     }
 
     setupGame() {
@@ -23,27 +23,26 @@ class Game {
     }
 
     takeTurn() {
-        this.activePlayer.drawCard()
-            .addManaslot(manaslot(this.turn, this.turn))
-            .refillAllMana()
-            .playCards(this.otherPlayer);
-
-        this.switchActivePlayer();
+        if(this.turn == 0) {
+            this.startingPlayer.drawCard()
+                .addManaslot(manaslot(this.round, this.round))
+                .refillAllMana()
+                .playCards(this.otherPlayer);
+            this.turn = 1;
+        }
+        else if(this.turn == 1) {
+            this.otherPlayer.drawCard()
+                .addManaslot(manaslot(this.round, this.round))
+                .refillAllMana()
+                .playCards(this.startingPlayer);
+            this.turn = 0;
+            this.round++;
+        }
     }
 
     startGame() {
         while (!this.endGame()) {
             this.takeTurn();
-        }
-    }
-
-    switchActivePlayer() {
-        if(this.activePlayer === this.startingPlayer) {
-            this.activePlayer = this.otherPlayer;
-        }
-        else if(this.activePlayer === this.otherPlayer) {
-            this.activePlayer = this.startingPlayer;
-            this.turn++;
         }
     }
 
@@ -62,4 +61,4 @@ class Game {
 
 }
 
-module.exports = Game;
+module.exports = KataGame;
