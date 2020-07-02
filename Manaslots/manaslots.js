@@ -9,7 +9,7 @@ class Manaslots {
     }
 
     addManaslot(manaslot) {
-        if(this.manaslots.length <= this.maximum) {
+        if(this.manaslots.length < this.maximum) {
             this.manaslots.push(manaslot);
         }
         else {
@@ -39,6 +39,7 @@ class Manaslots {
 
     availableMana() {
         let mana = 0;
+
         for(let i = 0; i < this.manaslots.length; i++) {
             mana += this.manaslots[i].amount;
         }

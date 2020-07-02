@@ -2,28 +2,34 @@
 
 class Hand {
 
-    constructor() {
+    constructor(playableHandFactory) {
         this.cards = [];
+        this.playableHandFactory = playableHandFactory;
     }
 
     addToHand(card) {
-        this.cards.push(card);
+        this.cards = this.cards.concat(card);
     }
 
     availableHand(amountOfMana) {
         const myPlayableCards = this.cards.filter(card => card.getDamage() <= amountOfMana);
-        return new PlayableCards(myPlayableCards);
+        return this.playableHandFactory(myPlayableCards);
+    }
+
+    areCardsAvailable(amountOfMana) {
+        return this.availableHand(amountOfMana).hasPlayableCards();
     }
 
     removeCard(card) {
-        for (let i = 0; i < this.cards.length; i++) {
+        for(let i = 0; i < this.cards.length; i++) {
             if (this.cards[i].equals(card)) {
                 this.cards.splice(i,1);
+                return;
             }
         }
 
-        console.log("You tried to remove an inexistent card from your hand");
-        throw new Error("You tried to remove an inexistent card from your hand");
+        console.log("You tried to remove an un-existent card from your hand");
+        throw new Error("You tried to remove an un-existent card from your hand");
     }
 }
 
