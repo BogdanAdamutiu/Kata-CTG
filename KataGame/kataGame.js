@@ -48,11 +48,11 @@ class KataGame {
 
     endGame() {
         if(this.startingPlayer.getHealth() <= 0) {
-            console.log('Other player is the winner');
+            console.log('Player2 is the winner');
             return true;
         }
         else if(this.otherPlayer.getHealth() <= 0) {
-            console.log('Starting player is the winner');
+            console.log('Player1 is the winner');
             return true;
         }
 

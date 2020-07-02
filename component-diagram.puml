@@ -2,167 +2,166 @@
 title Structural Design of Trading Card Game
 package "trading-card-game" {
 
-  component "Health" {
-    +class HealthFactory {
-      +Health createInstanceOfHealth(health : Number)
-    }
-    -class Health {
-      constructor(health : Number)
-      -amount : Number
-      +Number getHealth()
-      +void looseHealth(amount : Number)
-      +void gainHealth(amount : Number)
-    }
-    HealthFactory "1" ..> "1" Health : " creates"
-  }
-
   component "Card" {
-      +class CardFactory {
-        +Card createInstanceOfCard(id : Number, value : Number)
-      }
-      -class Card {
-        constructor(id : Number, value : Number)
-        -value : Number
-        -id : Number
-        +Number equals(card : Card)
-        +Number getDamage()
-        +Number getId()
-      }
-      CardFactory "1" ..> "1" Card : " creates"
-  }
+        +class CardFactory {
+          +Card createInstanceOfCard(id : Number, value : Number)
+        }
+        -class Card {
+          constructor(id : Number, value : Number)
+          -value : Number
+          -id : Number
+          +Number equals(card : Card)
+          +Number getDamage()
+          +Number getId()
+        }
+        CardFactory "1" ..> "1..*" Card : " creates"
+   }
 
   component "Deck" {
-      +class DeckFactory {
-        +Deck createInstanceOfDeck(cards : Card)
-      }
-      -class Deck {
-        constructor(cards : Card)
-        -cards : Array of Card
-        +Card drawCard()
-      }
-      DeckFactory "1" ..> "1" Deck : " creates"
-      Deck "1" o-> "1..*" Card : " has"
-  }
+        +class DeckFactory {
+          +Deck createInstanceOfDeck(cards : Card)
+        }
+        -class Deck {
+          constructor(cards : Card)
+          -cards : Array of Card
+          +Card drawRandomCard()
+          +Number hasCards()
+        }
+        DeckFactory "1" ..> "1..*" Deck : " creates"
+        Deck "1" o-> "1..*" Card : " has"
+   }
 
   component "Hand" {
-      +class HandFactory {
-        +Hand createInstanceOfHand()
-      }
-      -class Hand {
-        -cards : Array of Card
-        +Card addToHand(card : Card)
-        +PlayableCards availableHand(mana : Number)
-        +Bool removeCard(card : Card)
-      }
-      HandFactory "1" ..> "1" Hand : " creates"
-      Hand "1" ..> "1..*" Card : " has"
-      Hand "1" ..> "1" PlayableCards : " has"
+         +class HandFactory {
+           +Hand createInstanceOfHand(playableHandFactory : playableCards)
+         }
+         -class Hand {
+           constructor(playableHandFactory : playableCards)
+           -playableHandFactory : playableCards
+           -cards : Array of Card
+           +Void addToHand(card : Card)
+           +PlayableCards availableHand(mana : Number)
+           +Bool areCardsAvailable(mana : Number)
+           +Void removeCard(card : Card)
+         }
+         HandFactory "1" ..> "1" Hand : " creates"
+         Hand "1" ..> "1..*" Card : " has"
+         Hand "1" ..> "1" PlayableCards : " has"
   }
 
   component "PlayableCards" {
-      +class PlayableCardsFactory {
-        +PlayableHand createInstanceOfPlayableCars(cards : Card)
-      }
-      -class PlayableCards {
-        constructor(cards : Card)
-        -cards : Array of Card
-        +Number hasPlayableCards()
-        +Card takeCard()
-      }
-      PlayableCardsFactory "1" ..> "1" PlayableCards : " creates"
-      PlayableCards "1" ..> "1..*" Card : " has"
+        +class PlayableCardsFactory {
+          +PlayableCards createInstanceOfPlayableCars(cards : Card)
+        }
+        -class PlayableCards {
+          constructor(cards : Card)
+          -cards : Array of Card
+          +Bool hasPlayableCards()
+          +Card takeCard()
+        }
+        PlayableCardsFactory "1" ..> "1" PlayableCards : " creates"
+        PlayableCards "1" ..> "1..*" Card : " has"
+  }
+
+  component "Health" {
+         +class HealthFactory {
+           +Health createInstanceOfHealth(health : Number)
+         }
+         -class Health {
+            constructor(health : Number)
+            -amount : Number
+            +Number getHealth()
+            +void looseHealth(amount : Number)
+            +void gainHealth(amount : Number)
+         }
+         HealthFactory "1" ..> "1" Health : " creates"
   }
 
   component "Manaslot" {
-    +class ManaslotFactory {
-      +Manaslot createInstanceOfMana(size : Number, amount : Number)
-    }
-    -class Manaslot {
-      constructor(size : Number, amount : Number)
-      -size : Number
-      -amount : Number
-      +Number getSize()
-      +Number getAmount()
-    }
-    ManaslotFactory "1" ..> "1" Manaslot : " creates"
+         +class ManaslotFactory {
+           +Manaslot createInstanceOfMana(size : Number, amount : Number)
+         }
+         -class Manaslot {
+           constructor(size : Number, amount : Number)
+           -size : Number
+           -amount : Number
+           +Number getSize()
+           +Number getAmount()
+           +Void refillManaslot()
+           +void useMana(amount : Number)
+         }
+         ManaslotFactory "1" ..> "1..*" Manaslot : " creates"
   }
 
   component "Manaslots" {
-    +class ManaslotsFactory {
-      +Manaslots createInstanceOfManaslots(max : Number, min : Number)
-    }
-    -class Manaslots {
-      constructor(max : Number, min : Number)
-      -manaslots : Array of Manaslot
-      -max : Number
-      -min : Number
-      +Void addManaslot(manaslot : Manaslot)
-      +Void refillManaslots()
-      +Void useManaslots(amount : Number)
-      +Number availableMana()
-    }
-    ManaslotsFactory "1" ..> "1" Manaslots : " creates"
-    Manaslots "1" ..> "1..10" Manaslot : " uses"
+         +class ManaslotsFactory {
+           +Manaslots createInstanceOfManaslots(max : Number, min : Number)
+         }
+         -class Manaslots {
+           constructor(max : Number, min : Number)
+           -manaslots : Array of Manaslot
+           -max : Number
+           -min : Number
+           +Void addManaslot(manaslot : Manaslot)
+           +Void refillManaOfManaslots()
+           +Void useManaslots(amount : Number)
+           +Number availableMana()
+         }
+         ManaslotsFactory "1" ..> "1..*" Manaslots : " creates"
+         Manaslots "1" ..> "1..*" Manaslot : " uses"
   }
 
   component "Player" {
-    +class PlayerFactory {
-      +Player createInstanceOfPlayer(health : Health, manaslots : Manaslots, deck : Deck, hand : Hand)
-    }
-    -class Player {
-      constructor(health : Health, manaslots : Manaslots, deck : Deck, hand: Hand)
-      -health : Health
-      -manaslots : Manaslots
-      -deck : Deck
-      -hand : Hand
-      +Number getHealth()
-      +Number sustainDamage(damage : Number)
-      +Number healDamage(damage : Number)
-      +Card getHand()
-      +Number getAvailableMana()
-      +Void addManaslot(manaslot : Manaslot)
-      +Void addToHand()
-      +Card getAvailableCards(mana : Number)
-      +Card hasPlayableCards()
-      +Card drawCard(card : Card)
-      +Card takeCard()
-      +Void playCards(opponent : Player)
-    }
-    PlayerFactory "1" ..> "1" Player : " creates"
-    Player "1" o-> "1" Health : " has"
-    Player "1" o-> "1" Manaslots : " has"
-    Player "1" o-> "1" Deck : " has"
-    Player "1" o-> "1" Hand : " has"
+         +class PlayerFactory {
+           +Player createInstanceOfPlayer(health : Health, manaslots : Manaslots, deck : Deck, hand : Hand)
+         }
+         -class Player {
+           constructor(health : Health, manaslots : Manaslots, deck : Deck, hand: Hand)
+           -health : Health
+           -manaslots : Manaslots
+           -deck : Deck
+           -hand : Hand
+           +Number getHealth()
+           +Number sustainDamage(damage : Number)
+           +Number healDamage(damage : Number)
+           +Manaslot addManaslot(manaslot : Manaslot)
+           +Card drawCard()
+           +Player playCards(opponent : Player)
+           +Player refillAllMana()
+         }
+         PlayerFactory "1" ..> "1" Player : " creates"
+         Player "1" o-> "1" Health : " has"
+         Player "1" o-> "1" Manaslots : " has"
+         Player "1" o-> "1" Deck : " has"
+         Player "1" o-> "1" Hand : " has"
   }
 
-  component "Game" {
-    class GameFactory {
-      +Game createInstanceOfGame(player1 : Player, player2 : Player)
-      // create deck with 20 cards:
-      // 0,0,1,1,2,2,2,3,3,3,3,4,
-      // 4,4,5,5,6,6,7,8
-      // create Health 30
-      // impose maximum Manaslots 10
-    }
-    class Game {
-      constructor(startingPlayer : Player, otherPlayer : Player)
-      -startingPlayer : Player
-      -otherPlayer : Player
-      -activePlayer : Player
-      -turn : Number
-      +Void startGame() // both players get 3 cards, otherPlayer gets a 4th card
-      +Void takeTurn() // adds card to hand, receive 1 manaslot, refill manaslots, playCards
-      +Void switchActivePlayer
-      +Void endGame()
-    }
-    GameFactory "1" *--> "1" HealthFactory : " creates Health for a Player"
-    GameFactory "1" *--> "1" DeckFactory : " creates Deck for a Player"
-    GameFactory "1" *--> "1" ManaslotsFactory : " creates Manaslots for a Player"
-    GameFactory "1" *--> "1" HandFactory : " creates Hand for a Player"
-    GameFactory "1" *--> "1" PlayerFactory : " creates Player(s) for a Game"
-    GameFactory "1" *.> "0..*" Game : " creates a Game"
-    Game "1" o-> "1" Player : " has active"
-    Game "1" o-> "1" Player : " has inactive"
+  component "KataGame" {
+         class KataGameFactory {
+           +KataGame createInstanceOfKataGame(health : Health, maxManaslots : Number, Cards : Card)
+            // create Deck with 20 Cards: 0,0,1,1,2,2,2,3,3,3,3,4,4,4,5,5,6,6,7,8
+            // create Health 30
+            // impose maximum Manaslots 10
+         }
+         class KataGame {
+           constructor(startingPlayer : Player, otherPlayer : Player)
+           -startingPlayer : Player
+           -otherPlayer : Player
+           -turn : Number
+           -round : Number
+           +Void setupGame() // both players get 3 cards, otherPlayer gets a 4th card
+           +Void takeTurn() // adds card to hand, receive 1 manaslot, refill manaslots, playCards
+           +Void startGame()
+           +Bool endGame() // decides the winner
+         }
+         KataGameFactory "1" *--> "1" HealthFactory : " creates Health for a Player"
+         KataGameFactory "1" *--> "1" DeckFactory : " creates Deck for a Player"
+         KataGameFactory "1" *--> "1" ManaslotsFactory : " creates Manaslots for a Player"
+         KataGameFactory "1" *--> "1" HandFactory : " creates Hand for a Player"
+         KataGameFactory "1" *--> "1" PlayerFactory : " creates Player(s) for a Game"
+         KataGameFactory "1" *.> "1" KataGame : " creates a KataGame"
+         KataGame "1" o-> "1" Player : " has active"
+         KataGame "1" o-> "1" Player : " has inactive"
   }
 }
 @enduml
